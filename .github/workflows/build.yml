@@ -1,11 +1,10 @@
 
-name: CyberGuard C Build
+name: CyberGuard Build
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,8 +14,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Compile C Program
-        run: gcc -Wall -Wextra -std=c11 main.c security.c -o cyberguard
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
 
-      - name: Run CyberGuard
-        run: ./cyberguard
+      - name: Compile C to WebAssembly
+        run: |
+          emcc main.c security.c \
+            -o cyberguard.wasm \
+            -s STANDALONE_WASM=1
+
+      - name: Upload WebAssembly
+        uses: actions/upload-artifact@v4
+        with:
+          name: CyberGuard-WASM
+          path: cyberguard.wasm
