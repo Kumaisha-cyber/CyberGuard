@@ -1,40 +1,39 @@
 
 #include <stdio.h>
 #include "security.h"
+#include "analyzer.h"
 
 void analyze_event(SecurityEvent event) {
 
-    printf("\n----------------------------------\n");
-    printf("       SECURITY EVENT ANALYSIS\n");
-    printf("----------------------------------\n");
-
-    printf("Event ID: %d\n", event.event_id);
-    printf("Event Message: %s\n", event.message);
-    printf("Failed Attempts: %d\n", event.failed_attempts);
+    RiskLevel risk;
 
     if (event.failed_attempts >= 5) {
-        printf("Status: HIGH RISK\n");
-        printf("Alert: Suspicious login activity detected!\n");
+        risk = HIGH;
     }
     else if (event.failed_attempts >= 3) {
-        printf("Status: MEDIUM RISK\n");
-        printf("Alert: Multiple failed login attempts.\n");
+        risk = MEDIUM;
     }
     else {
-        printf("Status: NORMAL\n");
-        printf("No suspicious activity detected.\n");
+        risk = NORMAL;
     }
 
-    printf("----------------------------------\n");
-}
+    printf("\nEvent ID: %d\n", event.event_id);
+    printf("Message: %s\n", event.message);
+    printf("Failed Attempts: %d\n", event.failed_attempts);
 
-void display_report(void) {
+    switch (risk) {
 
-    printf("\n");
-    printf("==================================\n");
-    printf("       CYBERGUARD REPORT\n");
-    printf("==================================\n");
-    printf("Security analysis completed.\n");
-    printf("System monitoring is active.\n");
-    printf("==================================\n");
+        case HIGH:
+            printf("Risk: HIGH\n");
+            break;
+
+        case MEDIUM:
+            printf("Risk: MEDIUM\n");
+            break;
+
+        default:
+            printf("Risk: NORMAL\n");
+    }
+
+    record_risk(risk);
 }
