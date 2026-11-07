@@ -1,19 +1,28 @@
 
 #include <stdio.h>
+#include "security.h"
 
-int main() {
+int main(void) {
+
+    SecurityEvent events[] = {
+        {101, "Normal login activity", 1},
+        {102, "Repeated login failures", 3},
+        {103, "Suspicious login activity", 6}
+    };
+
+    int total = sizeof(events) / sizeof(events[0]);
 
     printf("\n");
     printf("====================================\n");
-    printf("          CYBERGUARD\n");
-    printf("   CYBERSECURITY MONITORING SYSTEM\n");
+    printf("           CYBERGUARD\n");
+    printf("    SECURITY MONITORING SYSTEM\n");
     printf("====================================\n");
 
-    printf("\nProject initialized successfully!\n");
-    printf("Programming Language: C\n");
-    printf("Core Engine: CyberGuard\n");
+    for (int i = 0; i < total; i++) {
+        analyze_event(events[i]);
+    }
 
-    printf("\n====================================\n");
+    display_report();
 
     return 0;
 }
