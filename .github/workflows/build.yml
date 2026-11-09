@@ -1,9 +1,19 @@
-name: CyberGuard Build
+
+name: CyberGuard WebAssembly Build
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -13,11 +23,43 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Compile CyberGuard
+      - name: Install GCC
+        run: sudo apt-get update && sudo apt-get install -y gcc
+
+      - name: Compile C Program
         run: |
           gcc -Wall -Wextra -Werror -std=c11 \
           main.c security.c analyzer.c report.c \
           -o cyberguard
 
-      - name: Run CyberGuard
+      - name: Run C Program
         run: ./cyberguard
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+
+      - name: Build WebAssembly Website
+        run: |
+          mkdir -p build
+          emcc main.c security.c analyzer.c report.c \
+          -std=c11 \
+          -o build/index.html \
+          -s EXIT_RUNTIME=1
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
