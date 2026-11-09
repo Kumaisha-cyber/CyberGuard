@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberGuard | Security Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#e8eefc;font-family:Arial,sans-serif}
+header{padding:25px 7%;background:#121b30;border-bottom:1px solid #293650}
+h1{margin:0;color:#55d6be}
+header p{color:#a9b8d0}
+main{max-width:1100px;margin:auto;padding:30px 20px}
+h2{color:#55d6be}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
+.card{background:#17233b;padding:23px;border-radius:12px;border:1px solid #293650}
+.card p{color:#a9b8d0}
+.number{font-size:34px;font-weight:bold}
+.normal{color:#55d6be}
+.medium{color:#ffc857}
+.high{color:#ff647c}
+.panel{margin-top:25px;background:#17233b;padding:24px;border-radius:12px}
+button{background:#55d6be;color:#08121d;border:0;padding:12px 20px;border-radius:7px;font-weight:bold;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #293650}
+footer{text-align:center;padding:25px;color:#8292ad}
+@media(max-width:500px){table{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+<h1>CYBERGUARD</h1>
+<p>Security Monitoring & Threat Analysis Platform</p>
+</header>
+<main>
+<h2>Security Overview</h2>
+<section class="cards">
+<div class="card"><p>Total Events</p><div class="number" id="total">5</div></div>
+<div class="card"><p>Normal Events</p><div class="number normal" id="normal">2</div></div>
+<div class="card"><p>Medium Alerts</p><div class="number medium" id="medium">1</div></div>
+<div class="card"><p>High Alerts</p><div class="number high" id="high">2</div></div>
+</section>
+<section class="panel">
+<h2>Security Event Analysis</h2>
+<table>
+<thead><tr><th>Event ID</th><th>Event</th><th>Attempts</th><th>Risk</th></tr></thead>
+<tbody id="events">
+<tr><td>101</td><td>Normal Login</td><td>1</td><td class="normal">NORMAL</td></tr>
+<tr><td>102</td><td>Failed Login</td><td>3</td><td class="medium">MEDIUM</td></tr>
+<tr><td>103</td><td>Suspicious Login</td><td>6</td><td class="high">HIGH</td></tr>
+<tr><td>104</td><td>Unknown Access</td><td>8</td><td class="high">HIGH</td></tr>
+<tr><td>105</td><td>Normal Login</td><td>0</td><td class="normal">NORMAL</td></tr>
+</tbody>
+</table>
+</section>
+<section class="panel">
+<h2>System Status</h2>
+<p>Application: <span class="normal">ACTIVE</span></p>
+<p>Security Engine: C / WebAssembly build</p>
+<p>Dashboard: <span class="normal">ONLINE</span></p>
+<button onclick="alert('CyberGuard dashboard is running!')">Test Dashboard</button>
+</section>
+</main>
+<footer>CyberGuard Security Monitoring System | 2026</footer>
+</body>
+</html>
