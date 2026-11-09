@@ -1,0 +1,23 @@
+name: CyberGuard Build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Compile CyberGuard
+        run: |
+          gcc -Wall -Wextra -Werror -std=c11 \
+          main.c security.c analyzer.c report.c \
+          -o cyberguard
+
+      - name: Run CyberGuard
+        run: ./cyberguard
